@@ -9,6 +9,8 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
+  build:
+
   store-results:
     name: Store analysis results into PostgreSQL
     runs-on: ubuntu-latest
