@@ -1,23 +1,40 @@
 Project Code Analysis:
+File: src\IBBA_REWARDS_BACKEND\src\app.controller.ts
+Versioning Followed: No
+Details: API versioning is not included in the paths or documentation.
+Code Snippets: The code does not include any versioning information in the API paths or documentation.
+
+File: src\IBBA_REWARDS_BACKEND\src\app.module.ts
+Versioning Followed: No
+Details: The provided code does not include any explicit version information in the API endpoints or documentation. It seems to be using the default versioning if any, which may not be explicit or proper.
+Code Snippets: No explicit versioning in the code snippets provided.
+
+File: src\IBBA_REWARDS_BACKEND\src\app.service.ts
+Versioning Followed: No
+Details: The provided code does not include any explicit versioning information in the API endpoints or documentation.
+Code Snippets: There are no code snippets related to versioning as the versioning information is not present in the code.
+
 File: src\IBBA_REWARDS_BACKEND\src\main.ts
 Versioning Followed: No
-Details: The code does not include explicit API versioning in the endpoint paths or documentation.
-Code Snippets: No specific code snippets related to versioning are present in the provided code.
+Details: The code does not exhibit explicit versioning in API endpoints or documentation.
+Code Snippets: 
+
+File: src\IBBA_REWARDS_BACKEND\src\web3-service\web3-service.module.ts
+Versioning Followed: No
+Details: The provided code does not contain any explicit reference to versioning in the API endpoints or documentation.
+Code Snippets: None
 
 File: src\IBBA_REWARDS_BACKEND\src\web3-service\controller\web3-service-with-apiversioning.controller.ts
 Versioning Followed: Yes
-Details: API versioning is properly followed in the code. The API endpoints include version information in their paths, as seen in the controller decorator '@Controller('api/v1/web3-service')'.
-Code Snippets: import { Controller } from '@nestjs/common';
-
-@Controller('api/v1/web3-service')
-export class Web3ServiceController { ... }
+Details: API versioning is properly followed in the code. The controller is defined with a specific version path ('api/v1/web3-service'), and the API endpoints and controller are structured according to the specified version.
+Code Snippets: {'controller_definition': "@Controller('api/v1/web3-service')"}
 
 File: src\IBBA_REWARDS_BACKEND\src\web3-service\controller\web3-service.controller.ts
 Versioning Followed: No
-Details: The API endpoints do not include version information in their paths or documentation.
-Code Snippets: ...
+Details: The code does not exhibit any explicit versioning in the API endpoint paths or documentation. It does not include version information in the endpoint paths or provide any documentation regarding API versioning.
+Code Snippets: 
 
 File: src\IBBA_REWARDS_BACKEND\src\web3-service\service\web3-service.service.ts
 Versioning Followed: No
-Details: There are no explicitly defined API endpoints or documentation related to versioning in the provided code. The code does not include any version information in the API paths or documentation.
-Code Snippets: N/A
+Details: The provided code does not demonstrate explicit versioning in API endpoints or documentation. The code pertains to service logic and integration with external systems. For proper API versioning, it is crucial to version the API endpoints and provide version information in the documentation.
+Code Snippets: 
