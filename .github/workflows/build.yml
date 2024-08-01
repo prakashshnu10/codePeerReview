@@ -41,7 +41,6 @@ jobs:
         run: |
           echo "Listing project directory:"
           ls -la
-          ls -la/src/IBBA_REWARDS_BACKEND
 
       - name: Install PostgreSQL Client
         run: sudo apt-get install postgresql-client

@@ -139,7 +139,7 @@ def analyze_project(directory):
         analysis_file.write("\n".join(analysis_results))
 
 def main():
-    project_directory = os.path.join("src", "IBBA_REWARDS_BACKEND", "src")  # Use os.path.join for cross-platform compatibility
+    project_directory = "src/IBBA_REWARDS_BACKEND/src"  # Use os.path.join for cross-platform compatibility
     
     if not os.path.isdir(project_directory):
         print(f"Directory {project_directory} does not exist. Please provide the correct directory path.")
