@@ -21,6 +21,7 @@ POSTGRES_DB = os.getenv('PGDATABASE')
 POSTGRES_USER = os.getenv('PGUSER')
 POSTGRES_PASSWORD = os.getenv('PGPASSWORD')
 POSTGRES_PORT = os.getenv('PGPORT')
+print('pgport', POSTGRES_PORT)
 
 # Create SQLAlchemy engine and session
 DATABASE_URL = f"postgresql+psycopg2://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
