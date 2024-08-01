@@ -42,6 +42,11 @@ jobs:
           echo "Listing project directory:"
           ls -la
 
+      - name: List src directory
+        run: |
+          echo "Listing src directory:
+          ls -R src
+
       - name: Install PostgreSQL Client
         run: sudo apt-get install postgresql-client
 
