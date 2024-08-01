@@ -14,11 +14,6 @@ import { AddFunds_Dto } from '../dto/add.funds.dto';
 import { ValidationError, validate } from 'class-validator';
 import { plainToClass } from 'class-transformer';
 import { promises } from 'dns';
-<<<<<<< HEAD
-=======
-import { mintNFT_Dto } from '../dto/mintNFT.dto';
-import { mintNFTInBatch_Dto } from '../dto/mintNFTInBatch.dto';
->>>>>>> 222b875 (added nest js project)
 import { error } from 'console';
 import { ConfigService } from '@nestjs/config';
 
