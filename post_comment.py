@@ -53,6 +53,7 @@ def get_merge_status(pr_details):
 
 
 def post_comment(comment):
+    print(comment)
     pr_number = get_pull_request_number()
     repo = os.getenv('GITHUB_REPOSITORY')
     token = os.getenv('TOKEN')
