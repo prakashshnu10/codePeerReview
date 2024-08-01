@@ -37,6 +37,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: List project directory
+        run: |
+          echo "Listing project directory:"
+          ls -la
+
       - name: Install PostgreSQL Client
         run: sudo apt-get install postgresql-client
 
