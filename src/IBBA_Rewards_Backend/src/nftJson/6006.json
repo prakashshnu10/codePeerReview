@@ -1,0 +1,31 @@
+{
+  "name": "ARGENTINA - PATAGONIA - EL CHALTEN 0006",
+  "description": "El Chalten is a town near the edge of the Southern Patagonian Ice Field in the Argentine province of Santa Cruz. It's mainly known as the gateway to Los Glaciares National Park, home to the massive Perito Moreno Glacier, whose ever-shifting icy landscape is popular for hiking and sightseeing.",
+  "image": "https://firebasestorage.googleapis.com/v0/b/merkle-tree-78c0e.appspot.com/o/images%2Fimages%2F6006.png?alt=media",
+  "attributes": [
+    {
+      "trait_type": "Atmosphere",
+      "value": "Storm Cloud"
+    },
+    {
+      "trait_type": "Barks",
+      "value": "Earthbound Bark"
+    },
+    {
+      "trait_type": "Chip",
+      "value": "NeuralNet Quantum Core"
+    },
+    {
+      "trait_type": "Landscapes",
+      "value": "El Chaltén"
+    },
+    {
+      "trait_type": "Leaves",
+      "value": "Ashia Leaves"
+    },
+    {
+      "trait_type": "Roots",
+      "value": "Serene Yellow Roots"
+    }
+  ]
+}

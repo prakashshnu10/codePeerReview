@@ -1,0 +1,31 @@
+{
+  "name": "BOLIVIA - UYUNI SALT FLATS 0010",
+  "description": "The Uyuni Salt Flats in Bolivia present an otherworldly landscape, resembling a vast white mirror that extends into infinity. During the rainy season, the flats become flooded, creating a breathtaking reflection of the sky. A photographer's dream and a place of mesmerizing beauty.",
+  "image": "https://firebasestorage.googleapis.com/v0/b/merkle-tree-78c0e.appspot.com/o/images%2Fimages%2F5010.png?alt=media",
+  "attributes": [
+    {
+      "trait_type": "Atmosphere",
+      "value": "Cloudless"
+    },
+    {
+      "trait_type": "Barks",
+      "value": "Crimson Bark"
+    },
+    {
+      "trait_type": "Chip",
+      "value": "XenoByte Hyper Core"
+    },
+    {
+      "trait_type": "Landscapes",
+      "value": "Uyuni Salt Flats"
+    },
+    {
+      "trait_type": "Leaves",
+      "value": "Dinosaur Palm Leaves"
+    },
+    {
+      "trait_type": "Roots",
+      "value": "Flower Meadow Roots"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "name": "VENEZUELA - ANGEL FALLS 0010",
+  "description": "Salto Angel, also known as Angel Falls, is the world's highest uninterrupted waterfall, located in Venezuela's Canaima National Park. The breathtaking cascade plunges to an astonishing height, surrounded by lush tropical rainforests, making it a must-see for a nature enthusiast.",
+  "image": "https://firebasestorage.googleapis.com/v0/b/merkle-tree-78c0e.appspot.com/o/images%2Fimages%2F8010.png?alt=media",
+  "attributes": [
+    {
+      "trait_type": "Atmosphere",
+      "value": "Cloudless"
+    },
+    {
+      "trait_type": "Barks",
+      "value": "Cyber Bark"
+    },
+    {
+      "trait_type": "Chip",
+      "value": "XenoByte Hyper Core"
+    },
+    {
+      "trait_type": "Landscapes",
+      "value": "Salto Ángel"
+    },
+    {
+      "trait_type": "Leaves",
+      "value": "Red Willow Leaves"
+    },
+    {
+      "trait_type": "Roots",
+      "value": "Flower Meadow Roots"
+    }
+  ]
+}

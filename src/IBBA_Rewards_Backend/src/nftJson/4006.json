@@ -1,0 +1,31 @@
+{
+  "name": "BRAZIL- LENÇÓIS MARANHENSES 0006",
+  "description": "Located in northeastern Brazil, Lençóis Maranhenses National Park is a surreal expanse of sand dunes and turquoise lagoons. Wander through this unique desert paradise, where the combination of sand and water creates an enchanting sight.",
+  "image": "https://firebasestorage.googleapis.com/v0/b/merkle-tree-78c0e.appspot.com/o/images%2Fimages%2F4006.png?alt=media",
+  "attributes": [
+    {
+      "trait_type": "Atmosphere",
+      "value": "Cloudless"
+    },
+    {
+      "trait_type": "Barks",
+      "value": "Mossy Bark"
+    },
+    {
+      "trait_type": "Chip",
+      "value": "NeuralNet Quantum Core"
+    },
+    {
+      "trait_type": "Landscapes",
+      "value": "Lençóis Maranhenses"
+    },
+    {
+      "trait_type": "Leaves",
+      "value": "Bubble Leaves"
+    },
+    {
+      "trait_type": "Roots",
+      "value": "Desert Roots"
+    }
+  ]
+}

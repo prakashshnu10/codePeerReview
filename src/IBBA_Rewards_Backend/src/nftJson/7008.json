@@ -1,0 +1,31 @@
+{
+  "name": "ECUADOR - LOS ANDES - QUILOTOA 0008",
+  "description": "Quilotoa Lake sits within a volcanic crater in Ecuador's Andes Mountains. Its emerald-green waters contrast beautifully with the rugged terrain, making it a captivating destination for hikers and photographers alike.",
+  "image": "https://firebasestorage.googleapis.com/v0/b/merkle-tree-78c0e.appspot.com/o/images%2Fimages%2F7008.png?alt=media",
+  "attributes": [
+    {
+      "trait_type": "Atmosphere",
+      "value": "Cirrus. Cloud"
+    },
+    {
+      "trait_type": "Barks",
+      "value": "Knotted Bark"
+    },
+    {
+      "trait_type": "Chip",
+      "value": "NeuralNet Quantum Core"
+    },
+    {
+      "trait_type": "Landscapes",
+      "value": "Quilotoa Lake"
+    },
+    {
+      "trait_type": "Leaves",
+      "value": "Sweetberry Leaves"
+    },
+    {
+      "trait_type": "Roots",
+      "value": "Fall Roots"
+    }
+  ]
+}

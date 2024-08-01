@@ -1,0 +1,31 @@
+{
+  "name": "PERU - CUSCO - RAINBOW MOUNTAINS 0012",
+  "description": "Located in Peru's Vinicunca Mountain range, the Rainbow Mountains showcase a mesmerizing display of vivid colors, a result of mineral deposits painting the landscape. Trek through this geological wonder for a once-in-a-lifetime experience.",
+  "image": "https://firebasestorage.googleapis.com/v0/b/merkle-tree-78c0e.appspot.com/o/images%2Fimages%2F10012.png?alt=media",
+  "attributes": [
+    {
+      "trait_type": "Atmosphere",
+      "value": "Cumulus Cloud"
+    },
+    {
+      "trait_type": "Barks",
+      "value": "Crimson Bark"
+    },
+    {
+      "trait_type": "Chip",
+      "value": "NeuralNet Quantum Core"
+    },
+    {
+      "trait_type": "Landscapes",
+      "value": "Rainbow Mountain"
+    },
+    {
+      "trait_type": "Leaves",
+      "value": "Frosty Leaves"
+    },
+    {
+      "trait_type": "Roots",
+      "value": "Fall Roots"
+    }
+  ]
+}

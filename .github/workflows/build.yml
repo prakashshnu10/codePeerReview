@@ -1,0 +1,122 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+  
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  build:
+    name: Build and analyze
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      - uses: sonarsource/sonarqube-quality-gate-action@master
+        id: qualitygate
+        timeout-minutes: 5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  store-results:
+    name: Store analysis results into PostgreSQL
+    runs-on: ubuntu-latest
+    needs: build
+    if: always()  # Ensures the job runs regardless of the previous job status
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install PostgreSQL Client
+        run: sudo apt-get install postgresql-client
+
+      - name: Retrieve SonarQube Analysis Results
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        run: |
+          echo "Retrieving SonarQube analysis results..."
+          curl --location 'http://65.1.55.202:9000/api/qualitygates/project_status?projectKey=pr_automate' \
+            --header 'Authorization: Basic c3FwXzRjYzY0YjZhMmQ3NjU2MmZmODc2YzA1NWYzYmM2YzZmMTUwNDY5ODk6' \
+            -o results.json \
+            --stderr curl_error.log
+          echo "Curl Error Log:"
+          cat curl_error.log
+          echo "Results JSON Content:"
+          cat results.json
+
+      - name: Check File Type and Parse JSON
+        run: |
+          file_type=$(file -b --mime-type results.json)
+          echo "File type: $file_type"
+          if [ "$file_type" == "application/json" ]; then
+            STATUS=$(jq -r '.projectStatus.status' results.json)
+            echo "Parsed Status: $STATUS"
+          else
+            echo "Error: The response is not JSON. Check the content of results.json"
+            cat results.json
+          fi
+
+      - name: Insert analysis results into PostgreSQL
+        env:
+          PGHOST: ${{ secrets.PGHOST }}
+          PGPORT: ${{ secrets.PGPORT }}
+          PGUSER: ${{ secrets.PGUSER }}
+          PGPASSWORD: ${{ secrets.PGPASSWORD }}
+          PGDATABASE: ${{ secrets.PGDATABASE }}
+        run: |
+          echo "Inserting analysis results into PostgreSQL..."
+          file_type=$(file -b --mime-type results.json)
+          if [ "$file_type" == "application/json" ]; then
+            STATUS=$(jq -r '.projectStatus.status' results.json)
+            psql -c "INSERT INTO sonar_analysis_results (pr_number, branch, status, analysis_data, developer) VALUES ('${{ github.event.pull_request.number }}', 'feature/findMajorityElement', '$STATUS', '$(cat results.json)', 'Prakash');"
+          else
+            echo "Skipping PostgreSQL insertion due to non-JSON response."
+          fi
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install openai requests psycopg2
+          pip install --upgrade openai
+          pip install openai==0.28
+
+      - name: Analyze code
+        env:
+          AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+          AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+          API_TYPE: ${{ secrets.API_TYPE }}
+          API_VERSION: ${{ secrets.API_VERSION }}
+          
+        run: |
+          python analyze_code.py > analysis.txt
+
+      - name: Post analysis comment
+        env:
+          TOKEN: ${{ secrets.TOKEN}}
+          PGHOST: ${{ secrets.PGHOST }}
+          PGPORT: ${{ secrets.PGPORT }}
+          PGUSER: ${{ secrets.PGUSER }}
+          PGPASSWORD: ${{ secrets.PGPASSWORD }}
+          PGDATABASE: ${{ secrets.PGDATABASE }}
+          GITHUB_EVENT_PATH: ${{ github.event_path }}
+          GITHUB_HEAD_REF: ${{ github.head_ref }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          python post_comment.py
+

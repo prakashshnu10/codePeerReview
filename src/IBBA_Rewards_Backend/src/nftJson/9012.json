@@ -1,0 +1,31 @@
+{
+  "name": "BRAZIL - FERNANDO DE NORONHA 0012",
+  "description": "Is an archipelago off Brazil's northeastern coast, offering an idyllic tropical escape. With its crystal-clear waters, pristine beaches, and vibrant marine life, it's a haven for snorkelers, divers, and beach lovers seeking unparalleled natural beauty.",
+  "image": "https://firebasestorage.googleapis.com/v0/b/merkle-tree-78c0e.appspot.com/o/images%2Fimages%2F9012.png?alt=media",
+  "attributes": [
+    {
+      "trait_type": "Atmosphere",
+      "value": "Cirrus. Cloud"
+    },
+    {
+      "trait_type": "Barks",
+      "value": "Mossy Bark"
+    },
+    {
+      "trait_type": "Chip",
+      "value": "NeuralNet Quantum Core"
+    },
+    {
+      "trait_type": "Landscapes",
+      "value": "Fernando de Noronha"
+    },
+    {
+      "trait_type": "Leaves",
+      "value": "Crimson Palm Leaves"
+    },
+    {
+      "trait_type": "Roots",
+      "value": "Sage Ice Roots"
+    }
+  ]
+}
