@@ -95,6 +95,7 @@ jobs:
           pip install openai requests psycopg2
           pip install --upgrade openai
           pip install openai==0.28
+          pip install sqlalchemy
 
       - name: Analyze code
         env:

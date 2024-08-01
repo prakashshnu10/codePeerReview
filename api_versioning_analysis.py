@@ -10,17 +10,17 @@ from sqlalchemy.orm import sessionmaker
 
 
 # Initialize the Azure OpenAI client
-openai.api_key = '82d7d9dfc84f443d8b2af93e957624bf'
-openai.api_base = 'https://llm-sermo-nu10.openai.azure.com/'
-openai.api_type = "azure"
-openai.api_version = "2024-02-15-preview"
+openai.api_key = os.getenv('AZURE_OPENAI_API_KEY')
+openai.api_base = os.getenv('AZURE_OPENAI_ENDPOINT')
+openai.api_type = os.getenv('API_TYPE')
+openai.api_version = os.getenv('API_VERSION')
 
 # PostgreSQL configuration
-POSTGRES_HOST = '65.1.55.202'
-POSTGRES_DB = 'sonarqube'
-POSTGRES_USER = 'sonar'
-POSTGRES_PASSWORD = 'sonarqube'
-POSTGRES_PORT = '5432'
+POSTGRES_HOST = os.getenv('PGHOST')
+POSTGRES_DB = os.getenv('PGDATABASE')
+POSTGRES_USER = os.getenv('PGUSER')
+POSTGRES_PASSWORD = os.getenv('PGPASSWORD')
+POSTGRES_PORT = os.getenv('PGPORT')
 
 # Create SQLAlchemy engine and session
 DATABASE_URL = f"postgresql+psycopg2://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
