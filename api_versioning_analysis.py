@@ -140,6 +140,9 @@ def analyze_project(directory):
 
 def main():
     project_directory = "src/IBBA_REWARDS_BACKEND/src"  # Use os.path.join for cross-platform compatibility
+
+    print(f"Checking directory: {project_directory}")  # Debug print statement
+    
     
     if not os.path.isdir(project_directory):
         print(f"Directory {project_directory} does not exist. Please provide the correct directory path.")

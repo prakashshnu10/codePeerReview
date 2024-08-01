@@ -46,6 +46,7 @@ jobs:
         run: |
           echo "Listing src directory":
           ls -R src
+          echo "Directory listing complete."
 
       - name: Install PostgreSQL Client
         run: sudo apt-get install postgresql-client
