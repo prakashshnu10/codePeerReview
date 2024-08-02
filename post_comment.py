@@ -81,7 +81,7 @@ def fetch_analysis_results(pr_number):
             with conn.cursor() as cursor:
                 # Fetch code complexity
                 cursor.execute("""
-                    SELECT file_path, complexity_level, details
+                    SELECT file_path, complexity_level
                     FROM code_complexity
                     WHERE pr_number = %s
                 """, (pr_number,))
@@ -89,7 +89,7 @@ def fetch_analysis_results(pr_number):
 
                 # Fetch API versioning
                 cursor.execute("""
-                    SELECT file_path, versioning_followed, analysis
+                    SELECT file_path, versioning_followed
                     FROM api_versioning
                     WHERE pr_number = %s
                 """, (pr_number,))
@@ -97,7 +97,7 @@ def fetch_analysis_results(pr_number):
 
                 # Fetch Swagger documentation
                 cursor.execute("""
-                    SELECT file_path, swagger_implemented, details
+                    SELECT file_path, swagger_implemented,
                     FROM swagger_documentation
                     WHERE pr_number = %s
                 """, (pr_number,))
@@ -123,16 +123,16 @@ def main():
         # Prepare the analysis text
         analysis_lines = [
             "Code Complexity Analysis:\n" + "\n".join(
-                [f"File: {file_path}, Level: {complexity_level}, Details: {details}"
-                 for file_path, complexity_level, details in complexity_results]
+                [f"File: {file_path}, Level: {complexity_level}"
+                 for file_path, complexity_level in complexity_results]
             ),
             "API Versioning Analysis:\n" + "\n".join(
-                [f"File: {file_path}, Versioning Followed: {versioning_followed}, Analysis: {analysis}"
-                 for file_path, versioning_followed, analysis in versioning_results]
+                [f"File: {file_path}, Versioning Followed: {versioning_followed}"
+                 for file_path, versioning_followed in versioning_results]
             ),
             "Swagger Documentation Analysis:\n" + "\n".join(
-                [f"File: {file_path}, Swagger Implemented: {swagger_implemented}, Details: {details}"
-                 for file_path, swagger_implemented, details in swagger_results]
+                [f"File: {file_path}, Swagger Implemented: {swagger_implemented}"
+                 for file_path, swagger_implemented in swagger_results]
             )
         ]
 
