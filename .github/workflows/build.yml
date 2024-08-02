@@ -23,8 +23,6 @@ jobs:
           npm install
 
       - uses: sonarsource/sonarqube-scan-action@master
-        run: |
-          cd src/IBBA_Rewards_Backend
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
