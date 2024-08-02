@@ -26,7 +26,7 @@ jobs:
       - name: Test and coverage
         run: |
           cd src/project/gen-ainest-project
-          npm jest --coverage
+          npm run test:cov
 
       - uses: sonarsource/sonarqube-scan-action@master
         env:
