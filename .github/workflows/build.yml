@@ -25,7 +25,7 @@ jobs:
 
       - name: Test and coverage
         run: |
-          cd src/project/gen-ainest-project/test
+          cd src/project/gen-ainest-project/src
           npm run test:coverage
 
       - uses: sonarsource/sonarqube-scan-action@master
