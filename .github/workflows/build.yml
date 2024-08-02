@@ -108,7 +108,7 @@ jobs:
           pip install openai==0.28
           pip install sqlalchemy
 
-      - name: Analyze code
+      - name: API_Versioning Analysis using LLM
         env:
           AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
           AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
@@ -122,6 +122,36 @@ jobs:
           
         run: |
           python api_versioning_analysis.py > analysis.txt
+
+      - name: Code_Complexity Analysis using LLM
+        env:
+          AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+          AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+          API_TYPE: ${{ secrets.API_TYPE }}
+          API_VERSION: ${{ secrets.API_VERSION }}
+          PGHOST: ${{ secrets.PGHOST }}
+          PGPORT: ${{ secrets.PGPORT }}
+          PGUSER: ${{ secrets.PGUSER }}
+          PGPASSWORD: ${{ secrets.PGPASSWORD }}
+          PGDATABASE: ${{ secrets.PGDATABASE }}
+          
+        run: |
+          python code_complexity_analysis.py > complexity_analysis.txt
+
+      - name: Swagger_Doc_Impl Analysis using LLM
+        env:
+          AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+          AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+          API_TYPE: ${{ secrets.API_TYPE }}
+          API_VERSION: ${{ secrets.API_VERSION }}
+          PGHOST: ${{ secrets.PGHOST }}
+          PGPORT: ${{ secrets.PGPORT }}
+          PGUSER: ${{ secrets.PGUSER }}
+          PGPASSWORD: ${{ secrets.PGPASSWORD }}
+          PGDATABASE: ${{ secrets.PGDATABASE }}
+          
+        run: |
+          python swagger_doc_analysis.py > swagger_analysis.txt
 
       - name: Post analysis comment
         env:
