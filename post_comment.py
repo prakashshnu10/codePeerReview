@@ -97,7 +97,7 @@ def fetch_analysis_results(pr_number):
 
                 # Fetch Swagger documentation
                 cursor.execute("""
-                    SELECT file_path, swagger_implemented,
+                    SELECT file_path, swagger_implemented 
                     FROM swagger_documentation
                     WHERE pr_number = %s
                 """, (pr_number,))
