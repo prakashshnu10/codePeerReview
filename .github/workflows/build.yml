@@ -21,12 +21,12 @@ jobs:
       - name: Install dependencies
         run: |
           cd src/project/gen-ainest-project/
-          npm install
+          npm 
 
       - name: Test and coverage
         run: |
           cd src/project/gen-ainest-project/src
-          npm run test:coverage
+          npm jest --coverage
 
       - uses: sonarsource/sonarqube-scan-action@master
         env:
