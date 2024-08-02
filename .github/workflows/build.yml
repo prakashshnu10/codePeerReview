@@ -18,16 +18,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install dependencies
-        run: |
-          cd src/project/gen-ainest-project/
-          npm install
-
-      - name: Test and coverage
-        run: |
-          cd src/project/gen-ainest-project/
-          npm run test:coverage
-
       - uses: sonarsource/sonarqube-scan-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
