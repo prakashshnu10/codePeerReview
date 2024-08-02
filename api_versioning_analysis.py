@@ -118,7 +118,7 @@ def analyze_project(directory, pr_number):
                         
                         # Store the result in PostgreSQL
                         insert_query = versioning_table.insert().values(
-                            pr_number=pr_number
+                            pr_number=pr_number,
                             file_path=file_path,
                             versioning_followed=versioning_followed,
                             analysis=analysis

@@ -125,7 +125,7 @@ def analyze_project(directory, pr_number):
                         
                         # Store the result in PostgreSQL
                         insert_query = swagger_table.insert().values(
-                            pr_number=pr_number
+                            pr_number=pr_number,
                             file_path=file_path,
                             swagger_implemented=swagger_implemented,
                             details=details

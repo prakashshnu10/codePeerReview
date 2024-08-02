@@ -120,7 +120,7 @@ def analyze_project(directory, pr_number):
                         
                         # Store the result in PostgreSQL
                         insert_query = complexity_table.insert().values(
-                            pr_number=pr_number
+                            pr_number=pr_number,
                             file_path=file_path,
                             complexity_level=complexity_level,
                             details=details
