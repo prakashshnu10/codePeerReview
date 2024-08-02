@@ -111,6 +111,18 @@ def fetch_analysis_results(pr_number):
         if conn:
             conn.close()
 
+def format_results(results, headers):
+    if not results:
+        return "No results found.\n"
+    
+    formatted = []
+    for entry in results:
+        formatted.append(f"File: {entry[0]}")
+        for header, value in zip(headers, entry[1:]):
+            formatted.append(f"  {header}: {value}")
+        formatted.append("")
+    return "\n".join(formatted)
+
 def main():
     try:
         pr_number = get_pull_request_number()
@@ -120,23 +132,15 @@ def main():
 
         complexity_results, versioning_results, swagger_results = fetch_analysis_results(pr_number)
 
-        # Prepare the analysis text
-        analysis_lines = [
-            "Code Complexity Analysis:\n" + "\n".join(
-                [f"File: {file_path}, Level: {complexity_level}"
-                 for file_path, complexity_level in complexity_results]
-            ),
-            "API Versioning Analysis:\n" + "\n".join(
-                [f"File: {file_path}, Versioning Followed: {versioning_followed}"
-                 for file_path, versioning_followed in versioning_results]
-            ),
-            "Swagger Documentation Analysis:\n" + "\n".join(
-                [f"File: {file_path}, Swagger Implemented: {swagger_implemented}"
-                 for file_path, swagger_implemented in swagger_results]
-            )
-        ]
-
-        analysis_text = "\n\n".join(analysis_lines)
+        # Format the analysis text
+        analysis_text = (
+            "Code Complexity Analysis:\n" +
+            format_results(complexity_results, ["Complexity Level", "Details"]) +
+            "\nAPI Versioning Analysis:\n" +
+            format_results(versioning_results, ["Versioning Followed", "Analysis"]) +
+            "\nSwagger Documentation Analysis:\n" +
+            format_results(swagger_results, ["Swagger Implemented", "Details"])
+        )
 
         post_comment(analysis_text)
         store_analysis_in_db(pr_number, branch_name, merge_status, analysis_text)
