@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AppModule } from '../src/app.module';
+import { AppModule } from './app.module';
 
 describe('AppModule', () => {
   let appModule: AppModule;

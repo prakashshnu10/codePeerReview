@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from '../src/app.module';
+import { AppModule } from './app.module';
 
 jest.mock('@nestjs/core', () => ({
   NestFactory: {
@@ -14,7 +14,7 @@ describe('Main', () => {
     const spyCreate = jest.spyOn(NestFactory, 'create');
     const spyListen = jest.spyOn((await NestFactory.create(AppModule)), 'listen');
 
-    await import('../src/main');
+    await import('./main');
 
     expect(spyCreate).toHaveBeenCalledWith(AppModule);
     expect(spyListen).toHaveBeenCalledWith(3000);
