@@ -3,6 +3,7 @@ import requests
 import json
 import psycopg2
 from psycopg2 import sql
+from tabulate import tabulate
 
 def store_analysis_in_db(pr_number, branch_name, merge_status, analysis_text):
     try:
@@ -111,17 +112,12 @@ def fetch_analysis_results(pr_number):
         if conn:
             conn.close()
 
-def format_results(results, headers):
+def format_results_as_table(results, headers):
     if not results:
         return "No results found.\n"
     
-    formatted = []
-    for entry in results:
-        formatted.append(f"File: {entry[0]}")
-        for header, value in zip(headers, entry[1:]):
-            formatted.append(f"  {header}: {value}")
-        formatted.append("")
-    return "\n".join(formatted)
+    table = tabulate(results, headers=headers, tablefmt="grid")
+    return table
 
 def main():
     try:
@@ -133,13 +129,14 @@ def main():
         complexity_results, versioning_results, swagger_results = fetch_analysis_results(pr_number)
 
         # Format the analysis text
+        complexity_table = format_results_as_table(complexity_results, ["File Path", "Complexity Level", "Details"])
+        versioning_table = format_results_as_table(versioning_results, ["File Path", "Versioning Followed", "Analysis"])
+        swagger_table = format_results_as_table(swagger_results, ["File Path", "Swagger Implemented", "Details"])
+
         analysis_text = (
-            "Code Complexity Analysis:\n" +
-            format_results(complexity_results, ["Complexity Level", "Details"]) +
-            "\nAPI Versioning Analysis:\n" +
-            format_results(versioning_results, ["Versioning Followed", "Analysis"]) +
-            "\nSwagger Documentation Analysis:\n" +
-            format_results(swagger_results, ["Swagger Implemented", "Details"])
+            "Code Complexity Analysis:\n" + complexity_table +
+            "\nAPI Versioning Analysis:\n" + versioning_table +
+            "\nSwagger Documentation Analysis:\n" + swagger_table
         )
 
         post_comment(analysis_text)
