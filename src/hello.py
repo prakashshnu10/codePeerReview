@@ -16,5 +16,3 @@ def majority_element(v):
                 return v[i]
         
     return -1
-
-password = "ps"
