@@ -1,0 +1,71 @@
+name: Store Analysis Results
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  store-results:
+    name: Store analysis results into PostgreSQL-1
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install PostgreSQL Client
+        run: sudo apt-get install postgresql-client -y
+
+      - name: Retrieve SonarQube Analysis Results
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        run: |
+          echo "Retrieving SonarQube analysis results..."
+          curl --location "$SONAR_HOST_URL/api/qualitygates/project_status?projectKey=pr_automate" \
+            --header "Authorization: Basic $SONAR_TOKEN" \
+            -o results.json \
+            --stderr curl_error.log
+          echo "Curl Error Log:"
+          cat curl_error.log
+          echo "Results JSON Content:"
+          cat results.json
+
+      - name: Check File Type and Parse JSON
+        run: |
+          file_type=$(file -b --mime-type results.json)
+          echo "File type: $file_type"
+          if [ "$file_type" == "application/json" ]; then
+            STATUS=$(jq -r '.projectStatus.status' results.json)
+            echo "Parsed Status: $STATUS"
+          else
+            echo "Error: The response is not JSON. Check the content of results.json"
+            cat results.json
+
+      - name: Insert analysis results into PostgreSQL
+        env:
+          PGHOST: ${{ secrets.PGHOST }}
+          PGPORT: ${{ secrets.PGPORT }}
+          PGUSER: ${{ secrets.PGUSER }}
+          PGPASSWORD: ${{ secrets.PGPASSWORD }}
+          PGDATABASE: ${{ secrets.PGDATABASE }}
+        run: |
+          echo "Inserting analysis results into PostgreSQL..."
+          file_type=$(file -b --mime-type results.json)
+          if [ "$file_type" == "application/json" ]; then
+            STATUS=$(jq -r '.projectStatus.status' results.json)
+            if [ "${{ github.event.pull_request.merged }}" == "true" ]; then
+              MERGE_STATUS="accepted"
+            else
+              MERGE_STATUS="rejected"
+            fi
+            echo "PR Number: ${{ github.event.pull_request.number }}"
+            echo "Branch: ${{ github.head_ref }}"
+            echo "Status: $STATUS"
+            echo "Merge Status: $MERGE_STATUS"
+            psql -c "INSERT INTO sonar_analysis_results (pr_number, branch, status, analysis_data, developer, merge_status) VALUES ('${{ github.event.pull_request.number }}', '${{ github.head_ref }}', '$STATUS', '$(cat results.json)', 'Prakash', '$MERGE_STATUS');"
+          else
+            echo "Skipping PostgreSQL insertion due to non-JSON response."
+          fi
+
+  
