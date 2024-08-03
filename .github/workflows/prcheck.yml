@@ -23,10 +23,10 @@ jobs:
         pip install psycopg2-binary jq
 
     - name: Retrieve SonarQube Analysis Results
-        env:
+      env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: |
+      run: |
           echo "Retrieving SonarQube analysis results..."
           curl --location 'http://65.1.55.202:9000/api/qualitygates/project_status?projectKey=pr_automate' \
             --header 'Authorization: Basic c3FwXzRjYzY0YjZhMmQ3NjU2MmZmODc2YzA1NWYzYmM2YzZmMTUwNDY5ODk6' \
@@ -37,8 +37,8 @@ jobs:
           echo "Results JSON Content:"
           cat results.json
 
-      - name: Check File Type and Parse JSON
-        run: |
+    - name: Check File Type and Parse JSON
+      run: |
           file_type=$(file -b --mime-type results.json)
           echo "File type: $file_type"
           if [ "$file_type" == "application/json" ]; then
