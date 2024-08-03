@@ -107,7 +107,7 @@ jobs:
             else
               MERGE_STATUS="rejected"
             fi
-            psql -c "INSERT INTO sonar_analysis_results (pr_number, branch, status, analysis_data, developer, merge_status) VALUES ('${{ github.event.pull_request.number }}', '${{ github.head_ref }}', '$STATUS', '$(cat results.json)', 'Prakash', '$MERGE_STATUS');"
+            psql -c "INSERT INTO sonar_analysis_results (pr_number, branch, status, analysis_data, developer) VALUES ('${{ github.event.pull_request.number }}', '${{ github.head_ref }}', '$MERGE_STATUS', '$(cat results.json)', 'Prakash');"
           else
             echo "Skipping PostgreSQL insertion due to non-JSON response."
           fi
