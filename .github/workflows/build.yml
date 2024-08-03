@@ -17,10 +17,22 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Install dependencies
+        run: |
+          cd src/project/gen-ainest-project
+          npm install
+
+      - name: Test and coverage
+        run: |
+          cd src/project/gen-ainest-project
+          npm run test:cov
+
       - uses: sonarsource/sonarqube-scan-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
       - uses: sonarsource/sonarqube-quality-gate-action@master
         id: qualitygate
         timeout-minutes: 5
@@ -36,6 +48,17 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: List project directory
+        run: |
+          echo "Listing project directory:"
+          ls -la
+
+      - name: List src directory
+        run: |
+          echo "Listing src directory":
+          ls -R src
+          echo "Directory listing complete."
 
       - name: Install PostgreSQL Client
         run: sudo apt-get install postgresql-client
@@ -79,7 +102,12 @@ jobs:
           file_type=$(file -b --mime-type results.json)
           if [ "$file_type" == "application/json" ]; then
             STATUS=$(jq -r '.projectStatus.status' results.json)
-            psql -c "INSERT INTO sonar_analysis_results (pr_number, branch, status, analysis_data, developer) VALUES ('${{ github.event.pull_request.number }}', 'feature/findMajorityElement', '$STATUS', '$(cat results.json)', 'Prakash');"
+            if [ "${{ github.event.pull_request.merged }}" == "true" ]; then
+              MERGE_STATUS="accepted"
+            else
+              MERGE_STATUS="rejected"
+            fi
+            psql -c "INSERT INTO sonar_analysis_results (pr_number, branch, status, analysis_data, developer) VALUES ('${{ github.event.pull_request.number }}', '${{ github.head_ref }}', '$MERGE_STATUS', '$(cat results.json)', 'Prakash');"
           else
             echo "Skipping PostgreSQL insertion due to non-JSON response."
           fi
@@ -92,19 +120,55 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install openai requests psycopg2
+          pip install openai requests psycopg2 tabulate
           pip install --upgrade openai
           pip install openai==0.28
+          pip install sqlalchemy
 
-      - name: Analyze code
+      - name: API_Versioning Analysis using LLM
         env:
           AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
           AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
           API_TYPE: ${{ secrets.API_TYPE }}
           API_VERSION: ${{ secrets.API_VERSION }}
+          PGHOST: ${{ secrets.PGHOST }}
+          PGPORT: ${{ secrets.PGPORT }}
+          PGUSER: ${{ secrets.PGUSER }}
+          PGPASSWORD: ${{ secrets.PGPASSWORD }}
+          PGDATABASE: ${{ secrets.PGDATABASE }}
           
         run: |
-          python analyze_code.py > analysis.txt
+          python api_versioning_analysis.py > analysis.txt
+
+      - name: Code_Complexity Analysis using LLM
+        env:
+          AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+          AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+          API_TYPE: ${{ secrets.API_TYPE }}
+          API_VERSION: ${{ secrets.API_VERSION }}
+          PGHOST: ${{ secrets.PGHOST }}
+          PGPORT: ${{ secrets.PGPORT }}
+          PGUSER: ${{ secrets.PGUSER }}
+          PGPASSWORD: ${{ secrets.PGPASSWORD }}
+          PGDATABASE: ${{ secrets.PGDATABASE }}
+          
+        run: |
+          python code_complexity_analysis.py > complexity_analysis.txt
+
+      - name: Swagger_Doc_Impl Analysis using LLM
+        env:
+          AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+          AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+          API_TYPE: ${{ secrets.API_TYPE }}
+          API_VERSION: ${{ secrets.API_VERSION }}
+          PGHOST: ${{ secrets.PGHOST }}
+          PGPORT: ${{ secrets.PGPORT }}
+          PGUSER: ${{ secrets.PGUSER }}
+          PGPASSWORD: ${{ secrets.PGPASSWORD }}
+          PGDATABASE: ${{ secrets.PGDATABASE }}
+          
+        run: |
+          python swagger_doc_analysis.py > swagger_analysis.txt
 
       - name: Post analysis comment
         env:

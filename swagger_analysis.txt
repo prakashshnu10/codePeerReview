@@ -1,0 +1,36 @@
+Swagger Documentation Analysis:
+File: src/IBBA_Rewards_Backend/src\app.controller.ts
+Swagger Implemented: No
+Details: Swagger documentation is not implemented in the provided TypeScript code. There are no annotations or comments indicating the use of Swagger or OpenAPI documentation.
+
+File: src/IBBA_Rewards_Backend/src\app.module.ts
+Swagger Implemented: No
+Details: No annotations or comments related to Swagger documentation were found in the code.
+
+File: src/IBBA_Rewards_Backend/src\app.service.ts
+Swagger Implemented: No
+Details: There are no annotations or comments indicating Swagger or OpenAPI documentation in the provided TypeScript code.
+
+File: src/IBBA_Rewards_Backend/src\main.ts
+Swagger Implemented: No
+Details: There are no annotations or comments that indicate Swagger or OpenAPI documentation in the provided code.
+
+File: src/IBBA_Rewards_Backend/src\web3-service\web3-service.module.ts
+Swagger Implemented: No
+Details: Swagger documentation is not implemented in the provided TypeScript code. There are no annotations or comments indicating the usage of Swagger or OpenAPI documentation.
+
+File: src/IBBA_Rewards_Backend/src\web3-service\controller\web3-service-with-apiversioning.controller.ts
+Swagger Implemented: No
+Details: Swagger documentation is not implemented in the provided TypeScript code. There are no annotations or comments indicating the use of Swagger or OpenAPI documentation.
+
+File: src/IBBA_Rewards_Backend/src\web3-service\controller\web3-service.controller.ts
+Swagger Implemented: No
+Details: Swagger documentation is not implemented in this code. There are no annotations or comments indicating the presence of Swagger or OpenAPI documentation.
+
+File: src/IBBA_Rewards_Backend/src\web3-service\controller\web3-service_with-swagger.ts
+Swagger Implemented: Yes
+Details: Swagger documentation is implemented in the provided TypeScript code. It includes Swagger definition, options for Swagger docs, and an example route with OpenAPI annotations.
+
+File: src/IBBA_Rewards_Backend/src\web3-service\service\web3-service.service.ts
+Swagger Implemented: No
+Details: Swagger documentation is not included in the provided TypeScript code. There are no annotations or comments that indicate the inclusion of Swagger or OpenAPI documentation.

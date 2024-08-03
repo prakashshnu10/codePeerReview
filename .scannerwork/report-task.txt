@@ -1,0 +1,6 @@
+projectKey=Python_PR_Automation
+serverUrl=http://localhost:9000
+serverVersion=10.6.0.92116
+dashboardUrl=http://localhost:9000/dashboard?id=Python_PR_Automation
+ceTaskId=a1236a8f-6a7a-43b1-b8c1-eaf842abe4a4
+ceTaskUrl=http://localhost:9000/api/ce/task?id=a1236a8f-6a7a-43b1-b8c1-eaf842abe4a4
