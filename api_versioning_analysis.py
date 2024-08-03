@@ -148,7 +148,7 @@ def get_pull_request_number():
 
 def main():
     pr_number = get_pull_request_number()
-    project_directory = "src/IBBA_Rewards_Backend/src"  # Use os.path.join for cross-platform compatibility
+    project_directory = "src/project/gen-ainest-project/src/app"  # Use os.path.join for cross-platform compatibility
 
     print(f"Checking directory: {project_directory}")  # Debug print statement
     

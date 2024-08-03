@@ -32,7 +32,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-          
+
       - uses: sonarsource/sonarqube-quality-gate-action@master
         id: qualitygate
         timeout-minutes: 5
@@ -102,7 +102,12 @@ jobs:
           file_type=$(file -b --mime-type results.json)
           if [ "$file_type" == "application/json" ]; then
             STATUS=$(jq -r '.projectStatus.status' results.json)
-            psql -c "INSERT INTO sonar_analysis_results (pr_number, branch, status, analysis_data, developer) VALUES ('${{ github.event.pull_request.number }}', 'feature/findMajorityElement', '$STATUS', '$(cat results.json)', 'Prakash');"
+            if [ "${{ github.event.pull_request.merged }}" == "true" ]; then
+              MERGE_STATUS="accepted"
+            else
+              MERGE_STATUS="rejected"
+            fi
+            psql -c "INSERT INTO sonar_analysis_results (pr_number, branch, status, analysis_data, developer, merge_status) VALUES ('${{ github.event.pull_request.number }}', '${{ github.head_ref }}', '$STATUS', '$(cat results.json)', 'Prakash', '$MERGE_STATUS');"
           else
             echo "Skipping PostgreSQL insertion due to non-JSON response."
           fi
