@@ -31,9 +31,6 @@ jobs:
         PGDATABASE: ${{ secrets.PGDATABASE }}
       run: |
         echo "Inserting analysis results into PostgreSQL..."
-        file_type=$(file -b --mime-type results.json)
-        if [ "$file_type" == "application/json" ]; then
-          STATUS=$(jq -r '.projectStatus.status' results.json)
           if [ "${{ github.event.pull_request.merged }}" == "true" ]; then
             MERGE_STATUS="accepted"
           else
@@ -41,9 +38,8 @@ jobs:
           fi
           echo "PR Number: ${{ github.event.pull_request.number }}"
           echo "Branch: ${{ github.head_ref }}"
-          echo "Status: $STATUS"
-          echo "Merge Status: $MERGE_STATUS"
-          psql -c "INSERT INTO sonar_analysis_results (pr_number, branch, status, analysis_data, developer) VALUES ('${{ github.event.pull_request.number }}', '${{ github.head_ref }}', '$STATUS' , '$(cat results.json)', 'Mohit');"
+          echo "Status: $MERGE_STATUS"
+          psql -c "INSERT INTO sonar_analysis_results (pr_number, branch, status, analysis_data, developer) VALUES ('${{ github.event.pull_request.number }}', '${{ github.head_ref }}', '$MERGE_STATUS' , '$(cat results.json)', 'Mohit');"
         else
           echo "Skipping PostgreSQL insertion due to non-JSON response."
         fi
