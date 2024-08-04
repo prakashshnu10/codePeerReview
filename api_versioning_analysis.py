@@ -111,11 +111,10 @@ def analyze_project(directory, pr_number):
                         analysis_json = json.loads(analysis)
                         versioning_followed = analysis_json.get('versioning_followed', 'Unknown')
                         details = analysis_json.get('details', 'No details provided')
-                        code_snippets = analysis_json.get('code_snippets', 'No code snippets provided')
                         
                         # Append the results to the analysis_results list
-                        analysis_results.append(f"File: {file_path}\nVersioning Followed: {versioning_followed}\nDetails: {details}\nCode Snippets: {code_snippets}\n")
-                        
+                        analysis_results.append(f"File: {file_path}\nVersioning Followed: {versioning_followed}\nDetails: {details}\n")
+
                         # Store the result in PostgreSQL
                         insert_query = versioning_table.insert().values(
                             pr_number=pr_number,
