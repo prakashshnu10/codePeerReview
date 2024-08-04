@@ -21,7 +21,7 @@ jobs:
 
       - name: Test and coverage
         run: |
-          cd src/project/gen-ainest-project
+          cd src/project/gen-ainest-project/src_swagger_and_api_versioning_implemented
           npm run test:cov
 
       - uses: sonarsource/sonarqube-scan-action@master
