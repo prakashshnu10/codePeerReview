@@ -86,6 +86,47 @@ jobs:
             cat results.json
           fi
 
+      - name: Insert analysis results into PostgreSQL
+        env:
+          PGHOST: ${{ secrets.PGHOST }}
+          PGPORT: ${{ secrets.PGPORT }}
+          PGUSER: ${{ secrets.PGUSER }}
+          PGPASSWORD: ${{ secrets.PGPASSWORD }}
+          PGDATABASE: ${{ secrets.PGDATABASE }}
+        run: |
+          echo "Inserting analysis results into PostgreSQL..."
+          if [ -f results.json ] && [ -s results.json ]; then
+            file_type=$(file -b --mime-type results.json)
+            if [ "$file_type" == "application/json" ]; then
+              STATUS=$(jq -r '.projectStatus.status' results.json)
+              if [ "$STATUS" == "ERROR" ]; then
+                if [ "${{ github.event.pull_request.merged }}" == "true" ]; then
+                  MERGE_STATUS="Accepted"
+                else
+                  MERGE_STATUS="Rejected"
+                fi
+                PR_NUMBER=${{ github.event.pull_request.number }}
+                BRANCH=${{ github.head_ref }}
+                ANALYSIS_DATA=$(jq -c . results.json | sed "s/'/''/g") # Properly escape single quotes for SQL
+                DEVELOPER="Gaurav"
+
+                echo "PR Number: $PR_NUMBER"
+                echo "Branch: $BRANCH"
+                echo "Status: $STATUS"
+                echo "Merge Status: $MERGE_STATUS"
+
+                psql -c "INSERT INTO sonar_analysis_results (pr_number, branch, status, analysis_data, developer) VALUES ('$PR_NUMBER', '$BRANCH', '$MERGE_STATUS', '$ANALYSIS_DATA', '$DEVELOPER');"
+              else
+                echo "Skipping PostgreSQL insertion as the status is not ERROR."
+              fi
+            else
+              echo "Skipping PostgreSQL insertion due to non-JSON response."
+            fi
+          else
+            echo "results.json does not exist or is empty. Skipping insertion."
+          fi
+
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
