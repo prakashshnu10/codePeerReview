@@ -61,16 +61,20 @@ jobs:
         file_type=$(file -b --mime-type results.json)
         if [ "$file_type" == "application/json" ]; then
           STATUS=$(jq -r '.projectStatus.status' results.json)
-          if [ "${{ github.event.pull_request.merged }}" == "true" ]; then
-            MERGE_STATUS="Accepted"
-          else
-            MERGE_STATUS="Rejected"
-          fi
-          echo "PR Number: ${{ github.event.pull_request.number }}"
-          echo "Branch: ${{ github.head_ref }}"
+          NEW_COVERAGE=$(jq -r '.projectStatus.conditions[] | select(.metricKey == "new_coverage") | .actualValue' results.json)
+          MERGE_STATUS=$([[ "${{ github.event.pull_request.merged }}" == "true" ]] && echo "Accepted" || echo "Rejected")
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          BRANCH=${{ github.head_ref }}
+          ANALYSIS_DATA=$(jq -c . results.json | sed "s/'/''/g") # Properly escape single quotes for SQL
+          DEVELOPER="Gaurav"
+
+          echo "PR Number: $PR_NUMBER"
+          echo "Branch: $BRANCH"
           echo "Status: $STATUS"
+          echo "New Coverage: $NEW_COVERAGE"
           echo "Merge Status: $MERGE_STATUS"
-          psql -c "INSERT INTO sonar_analysis_results (pr_number, branch, status, analysis_data, developer) VALUES ('${{ github.event.pull_request.number }}', '${{ github.head_ref }}', '$MERGE_STATUS' , '$(cat results.json)', 'Gaurav');"
+
+          psql -c "INSERT INTO sonar_analysis_results (pr_number, branch, status, coverage_report, analysis_data, developer) VALUES ('$PR_NUMBER', '$BRANCH', '$MERGE_STATUS', '$NEW_COVERAGE', '$ANALYSIS_DATA', '$DEVELOPER');"
         else
           echo "Skipping PostgreSQL insertion due to non-JSON response."
         fi
