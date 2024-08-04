@@ -86,7 +86,7 @@ jobs:
             cat results.json
           fi
 
-     - name: Insert Analysis Results into PostgreSQL
+      - name: Insert analysis results into PostgreSQL
         env:
           PGHOST: ${{ secrets.PGHOST }}
           PGPORT: ${{ secrets.PGPORT }}
@@ -123,6 +123,7 @@ jobs:
           else
             echo "results.json does not exist or is empty. Skipping insertion."
           fi
+
 
       - name: Set up Python
         uses: actions/setup-python@v2
