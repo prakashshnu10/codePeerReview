@@ -101,10 +101,10 @@ jobs:
               STATUS=$(jq -r '.projectStatus.status' results.json)
               NEW_COVERAGE=$(jq -r '.projectStatus.conditions[] | select(.metricKey == "new_coverage") | .actualValue' results.json)
               SECURITY_HOTSPOTS=$(jq -r '.projectStatus.conditions[] | select(.metricKey == "new_security_hotspots_reviewed") | .actualValue' results.json)
-              if [ "$SECURITY_HOTSPOTS" == 0.0]; then
-                SECURITY_STATUS = Yes
+              if [ "$SECURITY_HOTSPOTS" == "0.0" ]; then
+                SECURITY_STATUS="Yes"
               else
-                SECURITY_STATUS = No
+                SECURITY_STATUS="No"
               fi
 
               if [ "$STATUS" == "ERROR" ]; then
