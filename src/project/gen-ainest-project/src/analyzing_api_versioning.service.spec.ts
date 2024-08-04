@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AppService } from './app/app.service';
+import { AnalyzingAPIVersioningService } from './app/analyzing_api_versioning.service';
 
-describe('AppService', () => {
-  let service: AppService;
+describe('AnalyzingAPIVersioningService', () => {
+  let service: AnalyzingAPIVersioningService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AppService],
+      providers: [AnalyzingAPIVersioningService],
     }).compile();
 
-    service = module.get<AppService>(AppService);
+    service = module.get<AnalyzingAPIVersioningService>(AnalyzingAPIVersioningService);
   });
 
   it('should return "Hello from API v1!"', () => {
