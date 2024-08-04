@@ -147,7 +147,7 @@ def get_pull_request_number():
 
 def main():
     pr_number = get_pull_request_number()
-    project_directory = "src/project/gen-ainest-project/src_swagger_and_api_versioning_implemented/app"  # Use os.path.join for cross-platform compatibility
+    project_directory = "src/project/gen-ainest-project/src/app"  # Use os.path.join for cross-platform compatibility
 
     logger.info(f"Checking directory: {project_directory}")
     
