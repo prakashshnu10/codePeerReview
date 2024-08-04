@@ -60,7 +60,7 @@ def get_code_analysis(code):
         
         # Wait for the response to be processed
         time.sleep(2)  # Adjust time based on expected response time
-        
+    
         if response and response.choices:
             content = response.choices[0].message['content'].strip()
             # Remove any markdown code block indicators
@@ -120,7 +120,7 @@ def analyze_project(directory, pr_number):
                             pr_number=pr_number,
                             file_path=file_path,
                             versioning_followed=versioning_followed,
-                            analysis=analysis
+                            analysis=details
                         )
                         session.execute(insert_query)
                         session.commit()

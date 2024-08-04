@@ -6,7 +6,6 @@ export class AppService {
     return 'Hello World!';
   }
   getWprld(): string {
-    let password = 'abcd';
     return 'Hello Worl!';
   }
 }
