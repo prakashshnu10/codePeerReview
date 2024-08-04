@@ -74,7 +74,7 @@ jobs:
           echo "New Coverage: $NEW_COVERAGE"
           echo "Merge Status: $MERGE_STATUS"
 
-          psql -c "INSERT INTO sonar_analysis_results (pr_number, branch, status, coverage_report, analysis_data, developer) VALUES ('$PR_NUMBER', '$BRANCH', '$MERGE_STATUS', '$NEW_COVERAGE', '$ANALYSIS_DATA', '$DEVELOPER');"
+          psql -c "INSERT INTO sonar_analysis_results (pr_number, branch, status, coverage_report, analysis_data, developer, security_issue) VALUES ('$PR_NUMBER', '$BRANCH', '$MERGE_STATUS', '$NEW_COVERAGE', '$ANALYSIS_DATA', '$DEVELOPER', 'No');"
         else
           echo "Skipping PostgreSQL insertion due to non-JSON response."
         fi

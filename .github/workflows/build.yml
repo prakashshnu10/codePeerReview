@@ -100,6 +100,13 @@ jobs:
             if [ "$file_type" == "application/json" ]; then
               STATUS=$(jq -r '.projectStatus.status' results.json)
               NEW_COVERAGE=$(jq -r '.projectStatus.conditions[] | select(.metricKey == "new_coverage") | .actualValue' results.json)
+              SECURITY_HOTSPOTS=$(jq -r '.projectStatus.conditions[] | select(.metricKey == "new_security_hotspots_reviewed") | .actualValue' results.json)
+              if [ "$SECURITY_HOTSPOTS" == "0.0" ]; then
+                SECURITY_STATUS="Yes"
+              else
+                SECURITY_STATUS="No"
+              fi
+
               if [ "$STATUS" == "ERROR" ]; then
                 MERGE_STATUS=$([[ "${{ github.event.pull_request.merged }}" == "true" ]] && echo "Accepted" || echo "Rejected")
                 PR_NUMBER=${{ github.event.pull_request.number }}
@@ -112,8 +119,10 @@ jobs:
                 echo "Status: $STATUS"
                 echo "New Coverage: $NEW_COVERAGE"
                 echo "Merge Status: $MERGE_STATUS"
+                echo "Security Hotspots: $SECURITY_HOTSPOTS"
+                echo "Security Status: $SECURITY_STATUS"
 
-                psql -c "INSERT INTO sonar_analysis_results (pr_number, branch, status, coverage_report, analysis_data, developer) VALUES ('$PR_NUMBER', '$BRANCH', '$MERGE_STATUS', '$NEW_COVERAGE', '$ANALYSIS_DATA', '$DEVELOPER');"
+                psql -c "INSERT INTO sonar_analysis_results (pr_number, branch, status, coverage_report, analysis_data, developer, security_issue) VALUES ('$PR_NUMBER', '$BRANCH', '$MERGE_STATUS', '$NEW_COVERAGE', '$ANALYSIS_DATA', '$DEVELOPER', '$SECURITY_STATUS');"
               else
                 echo "Skipping PostgreSQL insertion as the status is not ERROR."
               fi
