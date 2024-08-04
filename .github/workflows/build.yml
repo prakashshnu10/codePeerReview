@@ -105,6 +105,7 @@ jobs:
                 SECURITY_STATUS = Yes
               else
                 SECURITY_STATUS = No
+              fi
 
               if [ "$STATUS" == "ERROR" ]; then
                 MERGE_STATUS=$([[ "${{ github.event.pull_request.merged }}" == "true" ]] && echo "Accepted" || echo "Rejected")
