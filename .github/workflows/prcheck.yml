@@ -62,9 +62,9 @@ jobs:
         if [ "$file_type" == "application/json" ]; then
           STATUS=$(jq -r '.projectStatus.status' results.json)
           if [ "${{ github.event.pull_request.merged }}" == "true" ]; then
-            MERGE_STATUS="accepted"
+            MERGE_STATUS="Accepted"
           else
-            MERGE_STATUS="rejected"
+            MERGE_STATUS="Rejected"
           fi
           echo "PR Number: ${{ github.event.pull_request.number }}"
           echo "Branch: ${{ github.head_ref }}"
