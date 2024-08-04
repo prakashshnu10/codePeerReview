@@ -86,7 +86,7 @@ jobs:
             cat results.json
           fi
 
-      - name: Insert analysis results into PostgreSQL
+     - name: Insert Analysis Results into PostgreSQL
         env:
           PGHOST: ${{ secrets.PGHOST }}
           PGPORT: ${{ secrets.PGPORT }}
@@ -99,12 +99,9 @@ jobs:
             file_type=$(file -b --mime-type results.json)
             if [ "$file_type" == "application/json" ]; then
               STATUS=$(jq -r '.projectStatus.status' results.json)
+              NEW_COVERAGE=$(jq -r '.projectStatus.conditions[] | select(.metricKey == "new_coverage") | .actualValue' results.json)
               if [ "$STATUS" == "ERROR" ]; then
-                if [ "${{ github.event.pull_request.merged }}" == "true" ]; then
-                  MERGE_STATUS="Accepted"
-                else
-                  MERGE_STATUS="Rejected"
-                fi
+                MERGE_STATUS=$([[ "${{ github.event.pull_request.merged }}" == "true" ]] && echo "Accepted" || echo "Rejected")
                 PR_NUMBER=${{ github.event.pull_request.number }}
                 BRANCH=${{ github.head_ref }}
                 ANALYSIS_DATA=$(jq -c . results.json | sed "s/'/''/g") # Properly escape single quotes for SQL
@@ -113,9 +110,10 @@ jobs:
                 echo "PR Number: $PR_NUMBER"
                 echo "Branch: $BRANCH"
                 echo "Status: $STATUS"
+                echo "New Coverage: $NEW_COVERAGE"
                 echo "Merge Status: $MERGE_STATUS"
 
-                psql -c "INSERT INTO sonar_analysis_results (pr_number, branch, status, analysis_data, developer) VALUES ('$PR_NUMBER', '$BRANCH', '$MERGE_STATUS', '$ANALYSIS_DATA', '$DEVELOPER');"
+                psql -c "INSERT INTO sonar_analysis_results (pr_number, branch, status, coverage_report, analysis_data, developer) VALUES ('$PR_NUMBER', '$BRANCH', '$MERGE_STATUS', '$NEW_COVERAGE', '$ANALYSIS_DATA', '$DEVELOPER');"
               else
                 echo "Skipping PostgreSQL insertion as the status is not ERROR."
               fi
@@ -125,7 +123,6 @@ jobs:
           else
             echo "results.json does not exist or is empty. Skipping insertion."
           fi
-
 
       - name: Set up Python
         uses: actions/setup-python@v2
