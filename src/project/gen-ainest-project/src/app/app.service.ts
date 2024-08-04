@@ -6,6 +6,6 @@ export class AppService {
     return 'Hello World!';
   }
   getWprld(): string {
-    return 'Hello World!';
+    return 'Hello Worl!';
   }
 }
