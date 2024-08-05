@@ -5,7 +5,14 @@ export class AppService {
   getHello(): string {
     return 'Hello World!';
   }
-  getWprld(): string {
-    return 'Hello Worl!';
+  getWorld(): string {
+    return 'Hello World!';
   }
+
+  addNumbers(num1: number, num2: number): number {
+    return num1 + num2;
+  }
+
+
+
 }
