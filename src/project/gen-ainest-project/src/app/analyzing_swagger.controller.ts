@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AnalyzingAPIVersioningService } from './analyzing_api_versioning.service';
+import { AnalyzingAPIVersioningService } from './analyzing.service';
 
 @Controller('api')
 export class AnalyzingSwaggerController {

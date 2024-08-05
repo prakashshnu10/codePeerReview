@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AnalyzingSwaggerController } from './app/analyzing_swagger.controller';
-import { AnalyzingAPIVersioningService } from './app/analyzing_api_versioning.service';
+import { AnalyzingAPIVersioningService } from './app/analyzing.service';
 
 describe('AnalyzingSwaggerController', () => {
   let appController: AnalyzingSwaggerController;

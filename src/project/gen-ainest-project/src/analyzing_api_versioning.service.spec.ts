@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AnalyzingAPIVersioningService } from './app/analyzing_api_versioning.service';
+import { AnalyzingAPIVersioningService } from './app/analyzing.service';
 
 describe('AnalyzingAPIVersioningService', () => {
   let service: AnalyzingAPIVersioningService;
