@@ -112,7 +112,7 @@ jobs:
                 PR_NUMBER=${{ github.event.pull_request.number }}
                 BRANCH=${{ github.head_ref }}
                 ANALYSIS_DATA=$(jq -c . results.json | sed "s/'/''/g") # Properly escape single quotes for SQL
-                DEVELOPER="Gaurav"
+                DEVELOPER="Prakash"
 
                 echo "PR Number: $PR_NUMBER"
                 echo "Branch: $BRANCH"
