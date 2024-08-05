@@ -122,7 +122,7 @@ jobs:
                 echo "Security Hotspots: $SECURITY_HOTSPOTS"
                 echo "Security Status: $SECURITY_STATUS"
 
-                psql -c "INSERT INTO sonar_analysis_results (pr_number, branch, status, coverage_report, analysis_data, developer, security_issue) VALUES ('$PR_NUMBER', '$BRANCH', '$MERGE_STATUS', '$NEW_COVERAGE', '$ANALYSIS_DATA', '$DEVELOPER', '$SECURITY_STATUS');"
+                psql -c "INSERT INTO sonar_analysis_results (pr_number, branch, status, coverage_report, analysis_data, developer, security_issue, pr_priority) VALUES ('$PR_NUMBER', '$BRANCH', '$MERGE_STATUS', '$NEW_COVERAGE', '$ANALYSIS_DATA', '$DEVELOPER', '$SECURITY_STATUS', 'Low');"
               else
                 echo "Skipping PostgreSQL insertion as the status is not ERROR."
               fi

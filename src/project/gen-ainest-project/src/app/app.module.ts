@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AnalyzingAPIVersioningService } from './analyzing_api_versioning.service';
+import { AnalyzingAPIVersioningService } from './analyzing.service';
 import { AnalyzingSwaggerController } from './analyzing_swagger.controller';
 
 @Module({

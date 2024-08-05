@@ -108,7 +108,7 @@ def main():
             f"API Versioning Analysis: {'Done' if api_versioning_done else 'Not Done'}\n"
             f"Swagger Analysis: {'Done' if swagger_done else 'Not Done'}\n"
             f"Code Complexity Analysis: {'Done' if code_complexity_done else 'Not Done'}\n\n"
-            f"Full Code Analysis: [Link](http://65.1.55.202:9000/dashboard?id=pr_automate)\n"
+            f"SonarQube Analysis: [Link](http://65.1.55.202:9000/dashboard?id=pr_automate)\n"
             f"Gen AI Report: [Link](http://localhost:8501/?pr_number={pr_number})"
         )
 
