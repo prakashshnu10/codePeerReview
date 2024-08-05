@@ -6,13 +6,9 @@ export class AppService {
     return 'Hello World!';
   }
   getWorld(): string {
-    let password = 'abcd';
     return 'Hello World!';
   }
 
-  addNumbers(num1: number, num2: number): number {
-    return num1 + num2;
-  }
 
 
 
