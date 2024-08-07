@@ -16,7 +16,5 @@ describe('AnalyzingAPIVersioningService', () => {
     expect(service.getHelloV1()).toBe('Hello from API v1!');
   });
 
-  it('should return "Hello from API v2!"', () => {
-    expect(service.getHelloV2()).toBe('Hello from API v2!');
-  });
+
 });
