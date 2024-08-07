@@ -52,7 +52,7 @@ jobs:
 
       - name: List src directory
         run: |
-          echo "Listing src directory":
+          echo "Listing src directory:"
           ls -R src
           echo "Directory listing complete."
 
@@ -66,7 +66,7 @@ jobs:
         run: |
           echo "Retrieving SonarQube analysis results..."
           curl --location 'http://65.1.55.202:9000/api/qualitygates/project_status?projectKey=pr_automate' \
-            --header 'Authorization: Basic c3FwXzRjYzY0YjZhMmQ3NjU2MmZmODc2YzA1NWYzYmM2YzZmMTUwNDY5ODk6' \
+            --header 'Authorization: Basic c3FwXzRjYzY0YjNhMmQ3NjU2MmZmODc2YzA1NWYzYmM2YzZmMTUwNDY5ODk6' \
             -o results.json \
             --stderr curl_error.log
           echo "Curl Error Log:"
@@ -133,7 +133,6 @@ jobs:
             echo "results.json does not exist or is empty. Skipping insertion."
           fi
 
-
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -147,6 +146,14 @@ jobs:
           pip install openai==0.28
           pip install sqlalchemy
 
+      - name: Get Modified Files
+        id: modified_files
+        run: |
+          echo "Fetching modified files..."
+          git diff --name-only ${{ github.event.before }} ${{ github.sha }} > modified_files.txt
+          echo "Modified files:"
+          cat modified_files.txt
+
       - name: API_Versioning Analysis using LLM
         env:
           AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
@@ -158,9 +165,8 @@ jobs:
           PGUSER: ${{ secrets.PGUSER }}
           PGPASSWORD: ${{ secrets.PGPASSWORD }}
           PGDATABASE: ${{ secrets.PGDATABASE }}
-          
         run: |
-          python api_versioning_analysis.py > analysis.txt
+          python api_versioning_analysis.py modified_files.txt > analysis.txt
 
       - name: Code_Complexity Analysis using LLM
         env:
@@ -173,9 +179,8 @@ jobs:
           PGUSER: ${{ secrets.PGUSER }}
           PGPASSWORD: ${{ secrets.PGPASSWORD }}
           PGDATABASE: ${{ secrets.PGDATABASE }}
-          
         run: |
-          python code_complexity_analysis.py > complexity_analysis.txt
+          python code_complexity_analysis.py modified_files.txt > complexity_analysis.txt
 
       - name: Swagger_Doc_Impl Analysis using LLM
         env:
@@ -188,13 +193,12 @@ jobs:
           PGUSER: ${{ secrets.PGUSER }}
           PGPASSWORD: ${{ secrets.PGPASSWORD }}
           PGDATABASE: ${{ secrets.PGDATABASE }}
-          
         run: |
-          python swagger_doc_analysis.py > swagger_analysis.txt
+          python swagger_doc_analysis.py modified_files.txt > swagger_analysis.txt
 
       - name: Post analysis comment
         env:
-          TOKEN: ${{ secrets.TOKEN}}
+          TOKEN: ${{ secrets.TOKEN }}
           PGHOST: ${{ secrets.PGHOST }}
           PGPORT: ${{ secrets.PGPORT }}
           PGUSER: ${{ secrets.PGUSER }}
@@ -205,4 +209,3 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
           python post_comment.py
-
