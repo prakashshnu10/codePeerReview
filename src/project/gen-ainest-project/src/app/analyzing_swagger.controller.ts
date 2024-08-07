@@ -6,7 +6,7 @@ import { AnalyzingAPIVersioningService } from './analyzing.service';
 export class AnalyzingSwaggerController {
   constructor(private readonly appService: AnalyzingAPIVersioningService) {}
 
-  @ApiTags('v1')
+
   @Get('v1/hello')
   getHelloV1(): string {
     return this.appService.getHelloV1();
@@ -17,4 +17,5 @@ export class AnalyzingSwaggerController {
   getHelloV2(): string {
     return this.appService.getHelloV2();
   }
+  
 }
