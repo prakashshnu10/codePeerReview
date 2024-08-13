@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0  # Fetch all history for all branches and tags
 
       - name: Install dependencies
         run: |
@@ -145,7 +145,15 @@ jobs:
           pip install --upgrade openai
           pip install openai==0.28
           pip install sqlalchemy
-        
+
+      - name: Get Modified Files
+        id: modified_files
+        run: |
+          echo "Fetching modified files..."
+          git diff --name-only ${{ github.event.before }} ${{ github.sha }} > modified_files.txt
+          echo "Modified files:"
+          cat modified_files.txt
+
       - name: Extract New Code
         run: |
           echo "Extracting new code..."
@@ -154,7 +162,6 @@ jobs:
           grep -v '+++' > new_code.py
           echo "New code extracted and saved to new_code.py"
           cat new_code.py
-
 
       - name: API_Versioning Analysis using LLM
         env:
@@ -196,18 +203,15 @@ jobs:
           PGPASSWORD: ${{ secrets.PGPASSWORD }}
           PGDATABASE: ${{ secrets.PGDATABASE }}
         run: |
-          python swagger_doc_analysis.py modified_files.txt > swagger_analysis.txt
+          python swagger_documentation_analysis.py modified_files.txt > swagger_analysis.txt
 
-      - name: Post analysis comment
+      - name: Combine Analyses into Final Report
+        run: |
+          cat analysis.txt complexity_analysis.txt swagger_analysis.txt > project_analysis.txt
+
+      - name: Post comment in PR
         env:
-          TOKEN: ${{ secrets.TOKEN }}
-          PGHOST: ${{ secrets.PGHOST }}
-          PGPORT: ${{ secrets.PGPORT }}
-          PGUSER: ${{ secrets.PGUSER }}
-          PGPASSWORD: ${{ secrets.PGPASSWORD }}
-          PGDATABASE: ${{ secrets.PGDATABASE }}
-          GITHUB_EVENT_PATH: ${{ github.event_path }}
-          GITHUB_HEAD_REF: ${{ github.head_ref }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python post_comment.py
+
