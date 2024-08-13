@@ -9,6 +9,11 @@ export class AppService {
     return 'Hello World!';
   }
 
+  getWorld_2(): string {
+    return 'Hello World! 2';
+  }
+
+
 
 
 

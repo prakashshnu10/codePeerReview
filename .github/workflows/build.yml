@@ -153,6 +153,16 @@ jobs:
           git diff --name-only ${{ github.event.before }} ${{ github.sha }} > modified_files.txt
           echo "Modified files:"
           cat modified_files.txt
+        
+      - name: Extract New Code
+        run: |
+          echo "Extracting new code..."
+          git diff ${{ github.event.before }} ${{ github.sha }} --unified=0 -- '*.py' | \
+          grep -E '^\+' | \
+          grep -v '+++' > new_code.py
+          echo "New code extracted and saved to new_code.py"
+          cat new_code.py
+
 
       - name: API_Versioning Analysis using LLM
         env:
