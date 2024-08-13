@@ -145,14 +145,6 @@ jobs:
           pip install --upgrade openai
           pip install openai==0.28
           pip install sqlalchemy
-
-      - name: Get Modified Files
-        id: modified_files
-        run: |
-          echo "Fetching modified files..."
-          git diff --name-only ${{ github.event.before }} ${{ github.sha }} > modified_files.txt
-          echo "Modified files:"
-          cat modified_files.txt
         
       - name: Extract New Code
         run: |
