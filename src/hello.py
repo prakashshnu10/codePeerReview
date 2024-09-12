@@ -1,7 +1,7 @@
 
 def majority_element(v):
     # size of the given array
-    n = len(v)
+    n = len(v);
         
     for i in range(n):
         # selected element is v[i]
